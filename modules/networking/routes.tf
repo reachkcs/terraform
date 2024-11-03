@@ -3,8 +3,9 @@ resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.myvpc.id}"
 
   tags = {
-    "Name" = "Public route table"
+    "Name" = "${var.env}-Public route table"
     "Terraform" = true
+    "Environment" = "${var.env}"
   }
 }
 
@@ -26,7 +27,7 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_route_table" "private" {
   count = "${length(var.azs)}"
-  vpc_id = "${aws_vpc.main.id}"
+  vpc_id = "${aws_vpc.myvpc.id}"
 
   tags = {
     "Name" = "${var.env}-Private route table - ${element(var.azs, count.index)}"

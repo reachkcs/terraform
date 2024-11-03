@@ -35,7 +35,7 @@ resource "aws_eip" "nat" {
   count = "${length(var.azs)}"
 
   tags = {
-    "Name" = "${var.env}-Private Subnet ${count.index + 1}"
+    "Name" = "${var.env}-Nat Gateway-EIP"
     "Terraform" = true
     "Environment" = "${var.env}"
   }
