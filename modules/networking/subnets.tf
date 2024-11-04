@@ -10,6 +10,8 @@ resource "aws_subnet" "public" {
     "Name" = "${var.env}-Public subnet - ${element(var.azs, count.index)}"
     "Terraform" = true
     "Environment" = "${var.env}"
+    "kubernetes.io/cluster/dev-eks-cluster" = "owned"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
@@ -27,6 +29,9 @@ resource "aws_subnet" "private" {
     "Name" = "${var.env}-Private subnet - ${element(var.azs, count.index)}"
     "Terraform" = true
     "Environment" = "${var.env}"
+    "kubernetes.io/cluster/dev-eks-cluster" = "owned"
+    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
 

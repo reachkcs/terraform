@@ -39,6 +39,10 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSVPCResourceController
   ]
+
+  tags = {
+    "alpha.eksctl.io/cluster-oidc-enabled" = "true"
+  }
 }
 
 # Security group for EKS Node Group
@@ -87,10 +91,11 @@ resource "aws_eks_node_group" "eks_node_group" {
   node_role_arn   = aws_iam_role.eks_worker_node_role.arn
   subnet_ids      = var.public_subnet_ids
   instance_types  = [var.node_instance_type]
+  ami_type       = "AL2_ARM_64" 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 3
+    max_size     = 3
+    min_size     = 3
   }
 }
 
