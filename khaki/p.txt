@@ -1,0 +1,7 @@
+We have 9 AWS accounts: Shared Prod, Shared Test, Backup, Logs, Security, IBA, CICD, Workspaces and Network.
+Shared Test is the playground account. CICD is meant for CICD infrastructure and for development and deployments. Network is where centralized interface endpoints, Network Firewall and all the network related resources exist. All traffic, north-south, east-west, would go via the network firewall that exists in this account. All account leverage interface endpoints that exist in the Network account. Backup account is where all backups would reside. Logs is where log aggregation happens. Security is meant for anything security related. IBA is where Jira setup exists. Workspaces account will hold all the workspaces resources that developers use. 
+
+All the static values such as CIDR for VPCs, Subnets, Account IDs etc will be stored in AWS Parameter Store.
+Backend configuration will be in S3 bucket with name terraform-mscibs. If lock table is required, it will be in terraform-mscibs-locks DynamoDB table.
+
+Build an optimal terraform directory structure with modules for network resources such as VPC, subnets, routes, interface endpoints, transit gateway attachments. And, also modules for EC2, EKS, ECS, ECR, RDS, S3.

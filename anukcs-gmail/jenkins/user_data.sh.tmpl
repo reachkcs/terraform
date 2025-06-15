@@ -1,0 +1,29 @@
+#!/bin/bash
+
+sudo yum update -y
+
+# Install Java OpenJDK11
+sudo rpm --import https://yum.corretto.aws/corretto.key
+sudo curl -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+sudo dnf install java-17-amazon-corretto -y
+java -version
+
+# Install Jenkins
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io-2023.key
+sudo dnf install jenkins -y
+
+# Start Jenkins service
+sudo systemctl daemon-reload
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+
+# Open port 8080 for Jenkins in the firewall
+sudo dnf install firewalld -y
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+
+sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+
+echo "Jenkins has been successfully installed and is running at http://localhost:8080"
